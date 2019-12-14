@@ -1,7 +1,12 @@
 package com.duiyi.simulatedclick;
 
 import android.accessibilityservice.AccessibilityService;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import java.util.List;
 
 /**
  * 模拟点击的服务类
@@ -17,9 +22,22 @@ public class SimulatedClickService extends AccessibilityService {
      *
      * @param event 窗口变化事件
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-
+        int eventType = event.getEventType();
+        switch (eventType) {
+            // 通知栏发生变化
+            case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+                // 模拟点击
+                AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
+                List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("信息");
+                for (AccessibilityNodeInfo msgNodeInfo : list) {
+                    msgNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                }
+                break;
+            default:
+        }
     }
 
     /**
