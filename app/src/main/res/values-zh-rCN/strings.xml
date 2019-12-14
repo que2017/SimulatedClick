@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">模拟点击</string>
+    <string name="click_window_screen">可以模拟点击窗口、屏幕</string>
+</resources>
